@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  index:
+    build: .
+    ports:
+       - '0.0.0.0:${APP_PORT}:${APP_PORT}'
+    environment:
+      - DB_USER=${DB_USER}
+      - DB=${DB}
+      - DB_PASSWORD=${DB_PASSWORD}
+  db:
+    build: ./database
+    ports:
+      - '0.0.0.0:${DB_PORT}:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=nnn123nnn
+      - PGDATA=/data/postgres
+    volumes:
+      - postgres:/data/postgres
+  frontend:
+    container_name: frontend_container
+    image: amralaa21/front-image
+    ports:
+      - '3000:3000'
+
+volumes:
+  postgres:
